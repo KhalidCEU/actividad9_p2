@@ -187,3 +187,80 @@ Ver [explicación aquí](timsort.md)
 [Articulo interesante](https://medium.com/@rylanbauermeister/understanding-timsort-191c758a42f3) (tiene unaa tabla con la complejidad en varios casos para diferentes algoritmos)
 
 La complejidad de este algoritmo es en el **mejor** caso es **O(n)** y en los casos **promedio** y **peor** tiene complejidad **O(n log n)**
+
+### 4. Quicksort
+
+**Ejercicio 83**
+
+Este algoritmo, al igual que Mergesort, tambien es un algoritmo de ordenación basado en la técnica **"divide y vencerás"**. Fue inventado por **Tony Hoare** en **1959** y publicado en **1961**
+
+Su funcionamiento consiste en:
+
+- **Elegir** un elemento "pivote" (puede ser el del medio, primer, ultimo elemento..etc)
+- **Reordenar** la lista colocando a la izquierda los elementos **menores** que el **pivote** y a la derecha los **mayores**
+- Aplicar de **manera recursiva** el mismo proceso para las **sublistas izquierda y derecha** hasta que esté **ordenada**
+
+Por ejemplo para la lista `[3, 8, 5, 4, 1, 9, 7]`
+- Pivote: 5
+- Menores: [3, 4, 1]
+- Mayores: [8, 9, 7]
+
+```
+Ordena cada sublista recursivamente
+
+[3, 4, 1] -> [1, 3, 4]
+[8, 9, 7] -> [7, 8, 9]
+
+Resultado final : [1, 3, 4] + 5 + [7, 8, 9]
+```
+Lo que nos da `[1, 3, 4, 5, 7, 8, 9]`
+
+**Ejercicio 84**
+
+Enlace [preview del libro](https://archive.org/details/datastructuresal0000weis_f2o8/page/268/mode/2up?q=quicksort) | Enlace [captura de pantalla](https://github.com/user-attachments/assets/ae784028-3a18-4cce-b7af-3b6600b6ac99) (página **269**)
+
+El codigo de quicksort en el libro de Weiss utiliza la técnica de **"mediana de tres"** para elegir un buen pivote y optimizar el rendimiento. El proceso es:
+- Si el **subarreglo** es **suficientemente grande**, **selecciona** el **pivote** usando la **mediana de tres** (el primer, el central y el último elemento).
+- Coloca el pivote cerca del final y divide el arreglo: mueve a la izquierda los elementos menores que el pivote y a la derecha los mayores.
+- Intercambia el pivote a su posición final.
+- Llama recursivamente a quicksort para ordenar las dos mitades resultantes.
+- Si el subarreglo es **pequeño**, usa **inserción directa** para mayor eficiencia.
+
+Llama **recursivamente a quicksort** para **ordenar** las dos mitades resultantes.
+
+> Funcion **median3** del libro
+```
+private static <AnyType extends Comparable<? super AnyType>>
+AnyType median3(AnyType[] a, int left, int right) {
+
+    int center = (left + right) / 2;
+
+    if (a[center].compareTo(a[left]) < 0)
+        swapReferences(a, left, center);
+    if (a[right].compareTo(a[left]) < 0)
+        swapReferences(a, left, right);
+    if (a[right].compareTo(a[center]) < 0)
+        swapReferences(a, center, right);
+
+    // Coloca el pivote en right - 1
+    swapReferences(a, center, right - 1);
+    return a[right - 1];
+}
+```
+
+<!-- **Ejemplo** [aquí](/quicksort.md) -->
+
+**Ejercicio 85**
+
+> Calcule las siguientes complejidades del método quicksort:
+1. Caso mejor   : **O(n log n)**
+2. Caso peor    : **O(n ^ 2)**
+3. Caso promedio    :  **O(n log n)**
+
+**Ejercicio 86**
+
+> ¿Qué significa que el quicksort no es estable?
+
+Cuando se dice que un algoritmo de ordenación **no es estable** significa que el **orden** entre elementos **iguales** puede **cambiar** **después de ordenar**.
+
+**Mergesort**, **insertion sort** (insercion directa) o **bubble sort** (metodo de la bubuja) por ejemplo **sí son estables**
